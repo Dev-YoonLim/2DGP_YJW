@@ -44,8 +44,8 @@ class Swap:
         global C, L, T, ST, SL
         L += 10
         SL += 10
-        if SL > 2000:
-            L -= 40
+        if SL > 2050:
+            L -= 30
             T += 20
             if L < 0:
                 SL = L
@@ -350,8 +350,8 @@ def handle_events():
                 if runch == 0:
                     runch = 4
             elif event.key == SDLK_SPACE:
-                T = 1
-                ST = 1
+                T = 5
+                ST = 5
 
 
 def nmcrush(men, npc):
