@@ -5,7 +5,7 @@ running = None
 runch = 0
 X = 640
 Y = 360
-T = 2200
+T = 2500
 L = 0
 C = 0
 ST = T
@@ -44,9 +44,9 @@ class Swap:
         global C, L, T, ST, SL
         L += 10
         SL += 10
-        if SL > 2050:
+        if SL > 2200:
             L -= 30
-            T += 20
+            T += 15
             if L < 0:
                 SL = L
                 ST = T
