@@ -135,15 +135,23 @@ class Men:
 
     UP_RUN, RIGHT_RUN, LEFT_RUN, DOWN_RUN, STAND = 0, 1, 2, 3, 5
 
-    def handle_up_run(self):
+    PIXEL_PER_METER = (10.0 / 0.2)
+    RUN_SPEED_KMPH = 20.0
+    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+
+    def handle_up_run(self, frame_time):
         global Y
         global ST
+        distance = Men.RUN_SPEED_PPS * frame_time
         if ST > 1:
-            self.y += 13
-            Y += 13
+            self.y += distance
+            Y += distance
         elif ST == 0:
-            self.y += 13
-            Y += 13
+            self.y += distance
+            Y += distance
         if self.state == self.UP_RUN and runch == 1:
             self.state = self.LEFT_RUN
         elif self.state == self.UP_RUN and runch == 2:
@@ -156,15 +164,16 @@ class Men:
 
 
 
-    def handle_left_run(self):
+    def handle_left_run(self, frame_time):
         global X
         global ST
+        distance = Men.RUN_SPEED_PPS * frame_time
         if ST > 1:
-            self.x -= 13
-            X -= 13
+            self.x -= distance
+            X -= distance
         elif ST == 0:
-            self.x -= 13
-            X -= 13
+            self.x -= distance
+            X -= distance
         if self.state == self.LEFT_RUN and runch == 4:
             self.state = self.DOWN_RUN
         elif self.state == self.LEFT_RUN and runch == 3:
@@ -172,15 +181,16 @@ class Men:
         elif self.state == self.LEFT_RUN and self.x < 0 and ST == 0:
             self.state = self.RIGHT_RUN
 
-    def handle_down_run(self):
+    def handle_down_run(self, frame_time):
         global Y
         global ST
+        distance = Men.RUN_SPEED_PPS * frame_time
         if ST > 1:
-            self.y -= 13
-            Y -= 13
+            self.y -= distance
+            Y -= distance
         elif ST == 0:
-            self.y -= 13
-            Y -= 13
+            self.y -= distance
+            Y -= distance
         if self.state == self.DOWN_RUN and runch == 2:
             self.state = self.RIGHT_RUN
         elif self.state == self.DOWN_RUN and runch == 1:
@@ -188,15 +198,16 @@ class Men:
         elif self.state == self.DOWN_RUN and self.y < 0 and ST == 0:
             self.state = self.UP_RUN
 
-    def handle_right_run(self):
+    def handle_right_run(self, frame_time):
         global X
         global ST
+        distance = Men.RUN_SPEED_PPS * frame_time
         if ST > 1:
-            self.x += 13
-            X += 13
+            self.x += distance
+            X += distance
         elif ST == 0:
-            self.x += 13
-            X += 13
+            self.x += distance
+            X += distance
         if self.state == self.RIGHT_RUN and runch == 3:
             self.state = self.UP_RUN
         elif self.state == self.RIGHT_RUN and runch == 4:
@@ -210,9 +221,10 @@ class Men:
         DOWN_RUN : handle_down_run,
         RIGHT_RUN: handle_right_run,
     }
-    def update(self):
+    def update(self, frame_time):
+        self.total_frames += 1.0
         self.frame = (self.frame + 1) % 3
-        self.handle_state[self.state](self)
+        self.handle_state[self.state](self, frame_time)
 
     def draw(self):
         if ST > 1:
@@ -245,6 +257,8 @@ class Men:
         self.run_frames = 0
         self.stand_frames = 0
         self.state = self.UP_RUN
+        self.total_frames = 0
+        self.dir = 1
 
         self.c1image = load_image('char_in/men3.png')
         self.c2image = load_image('char_in/men1.png')
@@ -326,7 +340,7 @@ class Floor:
 
 
 
-def handle_events():
+def handle_events(frame_time):
     global running
     global runch
     global T, ST
@@ -365,6 +379,15 @@ def nmcrush(men, npc):
 
     return True
 
+current_time = 0.0
+
+def get_frame_time():
+
+    global current_time
+
+    frame_time = get_time() - current_time
+    current_time += frame_time
+    return frame_time
 
 def main():
     open_canvas(1280, 700)
@@ -393,6 +416,10 @@ def main():
     running = True
 
     while (ST >= 1 and running == True):
+        frame_time = get_frame_time()
+        handle_events(frame_time)
+        men.update(frame_time)
+
         clear_canvas()
 
         for floor in floors:
@@ -422,8 +449,8 @@ def main():
         ban.update()
         ban.ndraw()
         ban.bdraw()
-        handle_events()
-        men.update()
+
+
         if runch == 1 or 2 or 3 or 4:
             runch = 0
         men.draw()
@@ -448,8 +475,8 @@ def main():
 
             ca.draw()
             npc.draw()
-            handle_events()
-            men.update()
+            handle_events(frame_time)
+            men.update(frame_time)
             if runch == 1 or 2 or 3 or 4:
                 runch = 0
             men.draw()
