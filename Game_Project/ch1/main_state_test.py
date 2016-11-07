@@ -320,9 +320,9 @@ class Floor:
     global mapx, mapy, map
 
     def __init__(self):
-        self.mapx = 50
-        self.mapy = 50
-        self.image = load_image('floor_in/block2_floor.png')
+        self.mapx = 600
+        self.mapy = 350
+        self.image = load_image('floor_in/block3_1_floor.png')
 
     def draw(self):
         self.image.draw(self.mapx, self.mapy)
@@ -350,7 +350,7 @@ def get_frame_time():
 
 
 
-def handle_events(frame_time):
+def handle_events():
     global running
     global runch
     global T, ST
@@ -439,7 +439,7 @@ def main():
 
     while (ST >= 1 and running == True):
         frame_time = get_frame_time()
-        handle_events(frame_time)
+        handle_events()
         men.update(frame_time)
 
         clear_canvas()
