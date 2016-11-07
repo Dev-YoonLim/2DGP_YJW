@@ -1,4 +1,6 @@
 import random
+import title_state
+import game_framework
 from pico2d import *
 
 running = None
@@ -335,7 +337,15 @@ class Floor:
             self.mapy = 50
 
 
+current_time = 0.0
 
+def get_frame_time():
+
+    global current_time
+
+    frame_time = get_time() - current_time
+    current_time += frame_time
+    return frame_time
 
 
 
@@ -347,7 +357,7 @@ def handle_events(frame_time):
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            running = False
+            game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 running = False
@@ -366,6 +376,8 @@ def handle_events(frame_time):
             elif event.key == SDLK_SPACE:
                 T = 5
                 ST = 5
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            game_framework.change_state(title_state)
 
 
 def nmcrush(men, npc):
@@ -379,15 +391,25 @@ def nmcrush(men, npc):
 
     return True
 
-current_time = 0.0
+def enter():
+    global men, floor
+    men = Men()
+    floor = Floor()
 
-def get_frame_time():
+def exit():
+    global men, floor
+    del(men)
+    del(floor)
 
-    global current_time
+def update():
+    frame_time = get_frame_time()
+    men.update(frame_time)
 
-    frame_time = get_time() - current_time
-    current_time += frame_time
-    return frame_time
+def draw():
+    clear_canvas()
+    floor.draw()
+    men.draw()
+    update_canvas()
 
 def main():
     open_canvas(1280, 700)
