@@ -290,8 +290,11 @@ class Bulid:
             self.ju = load_image('ju/blue2.png')
         self.image = load_image('pso/gamok3.png')
 
+
     def draw(self):
-        self.image.draw(self.bux, self.buy)
+        self.images = [self.image for i in range(10)]
+        for self.image in self.images:
+            self.image.draw(self.bux, self.buy)
         self.ju.draw(self.bux, self.buy-5)
 
     def update(self):
@@ -392,23 +395,30 @@ def nmcrush(men, npc):
     return True
 
 def enter():
-    global men, floor
+    global men, floor, bulid
     men = Men()
     floor = Floor()
 
+    bulid = Bulid()
+
 def exit():
-    global men, floor
+    global men, floor, bulid
     del(men)
     del(floor)
+    del(bulid)
 
 def update():
     frame_time = get_frame_time()
     men.update(frame_time)
 
+
 def draw():
+    global bulids
     clear_canvas()
     floor.draw()
     men.draw()
+    bulid.draw()
+
     update_canvas()
 
 def main():
