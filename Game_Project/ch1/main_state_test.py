@@ -2,9 +2,13 @@ import random
 import title_state
 import game_framework
 from pico2d import *
+from prison import Bulid
+from men import Men
+
 
 running = None
 runch = 0
+point = False
 X = 640
 Y = 360
 T = 2500
@@ -131,140 +135,6 @@ class Bar_and_Name:
     def ndraw(self):
         self.nimage.draw(self.nx, self.ny)
 
-
-
-class Men:
-
-    UP_RUN, RIGHT_RUN, LEFT_RUN, DOWN_RUN, STAND = 0, 1, 2, 3, 5
-
-    PIXEL_PER_METER = (10.0 / 0.2)
-    RUN_SPEED_KMPH = 20.0
-    RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-    RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
-    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
-
-    def handle_up_run(self, frame_time):
-        global Y
-        global ST
-        distance = Men.RUN_SPEED_PPS * frame_time
-        if ST > 1:
-            self.y += distance
-            Y += distance
-        elif ST == 0:
-            self.y += distance
-            Y += distance
-        if self.state == self.UP_RUN and runch == 1:
-            self.state = self.LEFT_RUN
-        elif self.state == self.UP_RUN and runch == 2:
-            self.state = self.RIGHT_RUN
-        elif self.state == self.UP_RUN and self.y > 720 and ST == 0:
-            self.state = self.DOWN_RUN
-        elif self.state == self.UP_RUN and self.y > 720 and ST == 0:
-            self.state = self.DOWN_RUN
-
-
-
-
-    def handle_left_run(self, frame_time):
-        global X
-        global ST
-        distance = Men.RUN_SPEED_PPS * frame_time
-        if ST > 1:
-            self.x -= distance
-            X -= distance
-        elif ST == 0:
-            self.x -= distance
-            X -= distance
-        if self.state == self.LEFT_RUN and runch == 4:
-            self.state = self.DOWN_RUN
-        elif self.state == self.LEFT_RUN and runch == 3:
-            self.state = self.UP_RUN
-        elif self.state == self.LEFT_RUN and self.x < 0 and ST == 0:
-            self.state = self.RIGHT_RUN
-
-    def handle_down_run(self, frame_time):
-        global Y
-        global ST
-        distance = Men.RUN_SPEED_PPS * frame_time
-        if ST > 1:
-            self.y -= distance
-            Y -= distance
-        elif ST == 0:
-            self.y -= distance
-            Y -= distance
-        if self.state == self.DOWN_RUN and runch == 2:
-            self.state = self.RIGHT_RUN
-        elif self.state == self.DOWN_RUN and runch == 1:
-            self.state = self.LEFT_RUN
-        elif self.state == self.DOWN_RUN and self.y < 0 and ST == 0:
-            self.state = self.UP_RUN
-
-    def handle_right_run(self, frame_time):
-        global X
-        global ST
-        distance = Men.RUN_SPEED_PPS * frame_time
-        if ST > 1:
-            self.x += distance
-            X += distance
-        elif ST == 0:
-            self.x += distance
-            X += distance
-        if self.state == self.RIGHT_RUN and runch == 3:
-            self.state = self.UP_RUN
-        elif self.state == self.RIGHT_RUN and runch == 4:
-            self.state = self.DOWN_RUN
-        elif self.state == self.RIGHT_RUN and self.x > 1280 and ST == 0:
-            self.state = self.LEFT_RUN
-
-    handle_state = {
-        UP_RUN : handle_up_run,
-        LEFT_RUN: handle_left_run,
-        DOWN_RUN : handle_down_run,
-        RIGHT_RUN: handle_right_run,
-    }
-    def update(self, frame_time):
-        self.total_frames += 1.0
-        self.frame = (self.frame + 1) % 3
-        self.handle_state[self.state](self, frame_time)
-
-    def draw(self):
-        if ST > 1:
-            if self.x > 1280:
-                self.x = 50
-            elif self.x < 0:
-                self.x = 1230
-            if self.y > 720:
-                self.y = 50
-            elif self.y < 0:
-                self.y = 670
-            self.c1image.clip_draw(self.frame * 50, self.state * 47, 50, 43, self.x, self.y)
-        elif ST == 0:
-            if self.x > 1280:
-                self.x = 1230
-            elif self.x < 0:
-                self.x = 50
-            if self.y > 720:
-                self.y = 670
-            elif self.y < 0:
-                self.y = 50
-            self.c2image.clip_draw(self.frame * 100, self.state * 95, 100, 85, self.x, self.y)
-
-
-
-    def __init__(self):
-        self.x = 640
-        self.y = 360
-        self.frame = random.randint(0, 7)
-        self.run_frames = 0
-        self.stand_frames = 0
-        self.state = self.UP_RUN
-        self.total_frames = 0
-        self.dir = 1
-
-        self.c1image = load_image('char_in/men3.png')
-        self.c2image = load_image('char_in/men1.png')
-
 class Npc1:
 
     def __init__(self):
@@ -274,39 +144,6 @@ class Npc1:
 
     def draw(self):
         self.image.draw(self.x, self.y)
-
-
-class Bulid:
-
-    def __init__(self):
-        self.bux = random.randint(100, 1100)
-        self.buy = random.randint(100, 500)
-        self.count = random.randint(0, 100)
-        if self.count >= 97:
-            self.ju = load_image('ju/red2.png')
-        elif self.count > 80 and self.count < 97:
-            self.ju = load_image('ju/green2.png')
-        elif self.count <= 80:
-            self.ju = load_image('ju/blue2.png')
-        self.image = load_image('pso/gamok3.png')
-
-
-    def draw(self):
-        self.images = [self.image for i in range(10)]
-        for self.image in self.images:
-            self.image.draw(self.bux, self.buy)
-        self.ju.draw(self.bux, self.buy-5)
-
-    def update(self):
-        self.bux = random.randint(100, 1100)
-        self.buy = random.randint(100, 500)
-        self.count = random.randint(0, 100)
-        if self.count >= 97:
-            self.ju = load_image('ju/red2.png')
-        elif self.count > 80 and self.count < 97:
-            self.ju = load_image('ju/green2.png')
-        elif self.count <= 80:
-            self.ju = load_image('ju/blue2.png')
 
 class Ca:
     global T
@@ -361,26 +198,9 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                running = False
-            elif event.key == SDLK_LEFT:
-                if runch == 0:
-                    runch = 1
-            elif event.key == SDLK_RIGHT:
-                if runch == 0:
-                    runch = 2
-            elif event.key == SDLK_UP:
-                if runch == 0:
-                    runch = 3
-            elif event.key == SDLK_DOWN:
-                if runch == 0:
-                    runch = 4
-            elif event.key == SDLK_SPACE:
-                T = 5
-                ST = 5
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.change_state(title_state)
+        else :
+            men.handle_event(event)
+
 
 
 def nmcrush(men, npc):
@@ -394,30 +214,40 @@ def nmcrush(men, npc):
 
     return True
 
-def enter():
-    global men, floor, bulid
+bulid = None
+men = None
+floor = None
+
+def create_world():
+    global bulids, men, floor
+    bulids = [Bulid() for i in range(10)]
     men = Men()
     floor = Floor()
 
-    bulid = Bulid()
+def destroy_world():
+    global men, floor, bulid
+    del (men)
+    del (floor)
+    del (bulid)
+
+
+def enter():
+    create_world()
 
 def exit():
-    global men, floor, bulid
-    del(men)
-    del(floor)
-    del(bulid)
+    destroy_world()
+    close_canvas()
 
 def update():
     frame_time = get_frame_time()
     men.update(frame_time)
 
-
 def draw():
-    global bulids
     clear_canvas()
     floor.draw()
     men.draw()
-    bulid.draw()
+    for bulid in bulids:
+        bulid.draw()
 
     update_canvas()
 
