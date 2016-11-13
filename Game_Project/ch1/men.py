@@ -23,7 +23,6 @@ class Men:
     def handle_event(self, event):
         global running
         global runch
-        global T, ST
         events = get_events()
         if event.type == SDL_KEYDOWN:
             if event.key == SDLK_LEFT:

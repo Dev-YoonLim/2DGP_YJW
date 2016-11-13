@@ -4,7 +4,7 @@ import game_framework
 from pico2d import *
 from prison import Bulid
 from men import Men
-from time_obj import Bar_and_Name
+from time_obj import Bar
 
 
 running = None
@@ -192,12 +192,11 @@ def get_frame_time():
 
 
 def handle_events():
-    global running
-    global runch
-    global T, ST
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
+            game_framework.quit()
+        if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.quit()
         else :
             men.handle_event(event)
@@ -215,24 +214,21 @@ def nmcrush(men, npc):
 
     return True
 
-bulid = None
-men = None
-floor = None
 
 def create_world():
-    global bulid, bulids, men, floor, b_and_l
+    global bulid, bulids, men, floor, bar
     bulid = Bulid()
     bulids = [Bulid() for i in range(10)]
     men = Men()
     floor = Floor()
-    b_and_l = Bar_and_Name()
+    bar = Bar()
 
 def destroy_world():
-    global men, floor, bulid
+    global men, floor, bulid, bar
     del (men)
     del (floor)
     del (bulid)
-    del (b_and_l)
+    del (bar)
 
 
 def enter():
@@ -245,6 +241,7 @@ def exit():
 def update():
     frame_time = get_frame_time()
     men.update(frame_time)
+    bar.update(frame_time)
     if men.draw() == True:
         for bulid in bulids:
             bulid.update(men)
@@ -253,6 +250,9 @@ def draw():
     clear_canvas()
     floor.draw()
     men.draw()
+    bar.tbdraw()
+    bar.lbdraw()
+    bar.ndraw()
     for bulid in bulids:
         bulid.draw()
 
