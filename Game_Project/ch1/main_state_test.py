@@ -4,6 +4,7 @@ import game_framework
 from pico2d import *
 from prison import Bulid
 from men import Men
+from time_obj import Bar_and_Name
 
 
 running = None
@@ -219,16 +220,19 @@ men = None
 floor = None
 
 def create_world():
-    global bulids, men, floor
+    global bulid, bulids, men, floor, b_and_l
+    bulid = Bulid()
     bulids = [Bulid() for i in range(10)]
     men = Men()
     floor = Floor()
+    b_and_l = Bar_and_Name()
 
 def destroy_world():
     global men, floor, bulid
     del (men)
     del (floor)
     del (bulid)
+    del (b_and_l)
 
 
 def enter():
@@ -241,6 +245,9 @@ def exit():
 def update():
     frame_time = get_frame_time()
     men.update(frame_time)
+    if men.draw() == True:
+        for bulid in bulids:
+            bulid.update(men)
 
 def draw():
     clear_canvas()

@@ -1,13 +1,10 @@
 import random
 from pico2d import *
-from men import Men
+import men
 
 men = None
 
 class Bulid:
-
-    def open(self):
-        men = Men()
 
     def __init__(self):
         self.bux = random.randint(100, 1100)
@@ -25,7 +22,7 @@ class Bulid:
         self.image.draw(self.bux, self.buy)
         self.ju.draw(self.bux, self.buy-5)
 
-    def update(self):
+    def update(self, men):
         self.bux = random.randint(100, 1100)
         self.buy = random.randint(100, 500)
         self.count = random.randint(0, 100)
