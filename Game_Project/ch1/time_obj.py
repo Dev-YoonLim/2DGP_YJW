@@ -56,3 +56,4 @@ class Bar:
             self.by = 670
             self.tbimage = load_image('bar/timebar6.png')
 
+

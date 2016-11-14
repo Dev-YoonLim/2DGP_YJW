@@ -33,6 +33,19 @@ class Bulid:
         elif self.count <= 80:
             self.ju = load_image('ju/blue2.png')
 
+class Castle:
+
+
+    def __init__(self):
+        self.bux = 600
+        self.buy = 500
+        self.count = random.randint(0, 100)
+        self.image = load_image('pso/ca1.png')
+
+    def draw(self):
+        self.image.draw(self.bux, self.buy)
+
+
 
 
 

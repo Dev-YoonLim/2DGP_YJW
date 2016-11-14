@@ -2,6 +2,7 @@ import random
 import title_state
 import game_framework
 from pico2d import *
+from floors import Floor
 from prison import Bulid
 from men import Men
 from time_obj import Bar
@@ -155,27 +156,6 @@ class Ca:
 
     def draw(self):
         self.image.draw(self.x, self.y)
-
-
-class Floor:
-    global mapx, mapy, map
-
-    def __init__(self):
-        self.mapx = 600
-        self.mapy = 350
-        self.image = load_image('floor_in/block3_1_floor.png')
-
-    def draw(self):
-        self.image.draw(self.mapx, self.mapy)
-
-    def update(self):
-        self.mapx += 100
-        if(self.mapx > 1280):
-            self.mapx = 50
-            self.mapy += 100
-        elif(self.mapy > 720):
-            self.mapx = 50
-            self.mapy = 50
 
 
 current_time = 0.0
