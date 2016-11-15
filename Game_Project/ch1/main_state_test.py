@@ -1,11 +1,17 @@
 import random
 import title_state
+import chup_state
+import bs_state
 import game_framework
+import load_state
+import time_obj
+import bs_state
 from pico2d import *
 from floors import Floor
-from prison import Bulid
+from prison import Bulid, Castle
 from men import Men
 from time_obj import Bar
+from main_npc import Mnpc
 
 
 running = None
@@ -168,7 +174,7 @@ def get_frame_time():
     current_time += frame_time
     return frame_time
 
-
+frame_time = get_frame_time()
 
 
 def handle_events():
@@ -196,8 +202,10 @@ def nmcrush(men, npc):
 
 
 def create_world():
-    global bulid, bulids, men, floor, bar
+    global bulid, bulids, men, floor, bar, castle, mnpc
+    mnpc = Mnpc()
     bulid = Bulid()
+    castle = Castle()
     bulids = [Bulid() for i in range(10)]
     men = Men()
     floor = Floor()
@@ -221,10 +229,13 @@ def exit():
 def update():
     frame_time = get_frame_time()
     men.update(frame_time)
-    bar.update(frame_time)
+    bar.update_t(frame_time)
+    bar.update_l(frame_time)
     if men.draw() == True:
         for bulid in bulids:
             bulid.update(men)
+    if bar.next() == True:
+        game_framework.change_state(bs_state)
 
 def draw():
     clear_canvas()
@@ -233,10 +244,38 @@ def draw():
     bar.tbdraw()
     bar.lbdraw()
     bar.ndraw()
-    for bulid in bulids:
-        bulid.draw()
+    if time_obj.chup == False:
+        for bulid in bulids:
+            bulid.draw()
+    elif time_obj.chup == True:
+        castle.draw()
+        mnpc.draw()
+
 
     update_canvas()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def main():
     open_canvas(1280, 700)

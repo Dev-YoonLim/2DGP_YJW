@@ -1,5 +1,3 @@
-import random
-import title_state
 import game_framework
 import main_state_test
 from floors import Floor
@@ -8,6 +6,8 @@ from prison import Castle
 from men import Men
 from time_obj import Bar
 
+current_time = 0.0
+state_time = 0.0
 
 def get_frame_time():
 
@@ -31,17 +31,18 @@ def handle_events():
             men.handle_event(event)
 
 def create_world():
-    global bulid, men, floor, bar, castle
+    global bulid, men, floor, bar, castle, state_time, swch
     castle = Castle()
     men = Men()
     floor = Floor()
     bar = Bar()
+    state_time = 0
 
 def destroy_world():
-    global men, floor, bulid, bar
+    global men, floor, castle, bar
     del (men)
     del (floor)
-    del (bulid)
+    del (castle)
     del (bar)
 
 
@@ -53,9 +54,14 @@ def exit():
     close_canvas()
 
 def update():
+    global state_time, bar
     frame_time = get_frame_time()
+    bar.update_l(frame_time)
+    bar.update_t(frame_time)
     men.update(frame_time)
-    bar.update(frame_time)
+    state_time += state_time + 0.005
+    if state_time > 10:
+        game_framework.change_state(main_state_test)
 
 def draw():
     clear_canvas()
@@ -67,3 +73,8 @@ def draw():
     castle.draw()
 
     update_canvas()
+
+def chtime():
+    global state_time
+    if state_time > 10:
+        return True

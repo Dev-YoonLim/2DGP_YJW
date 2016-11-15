@@ -1,21 +1,21 @@
 import game_framework
 import main_state_test
-import load_state
+import chup_state
 from pico2d import *
 
 
-name = "TitleState"
+name = "LoadState"
 image = None
-
+logo_time = 0.0
 
 def enter():
-    global image
-    image = load_image('screen/title_floor.png')
+    global image0
+    image0 = load_image('screen/loading_floor.png')
 
 
 def exit():
-    global image
-    del(image)
+    global image0
+    del(image0)
 
 
 def handle_events():
@@ -27,33 +27,23 @@ def handle_events():
             if(event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
             elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.push_state(load_state)
+                game_framework.change_state(main_state_test)
+
+
+
 
 
 def draw():
     clear_canvas()
-    image.draw(600,350)
+    image0.draw(600,350)
     update_canvas()
 
 
-
-
-
-
-
 def update():
-    pass
+    global logo_time
 
-
-def pause():
-    pass
-
-
-def resume():
-    pass
-
-
-
-
-
-
+    if logo_time > 1.0:
+        logo_time = 0
+        game_framework.change_state(main_state_test)
+    delay(0.01)
+    logo_time += 0.01

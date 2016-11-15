@@ -1,5 +1,6 @@
 import random
 from pico2d import *
+from time_obj import Bar
 import men
 
 men = None
@@ -19,8 +20,11 @@ class Bulid:
         self.image = load_image('pso/gamok3.png')
 
     def draw(self):
-        self.image.draw(self.bux, self.buy)
-        self.ju.draw(self.bux, self.buy-5)
+        global bar
+        bar = Bar()
+        if bar.update_t != False:
+            self.image.draw(self.bux, self.buy)
+            self.ju.draw(self.bux, self.buy-5)
 
     def update(self, men):
         self.bux = random.randint(100, 1100)
@@ -35,11 +39,9 @@ class Bulid:
 
 class Castle:
 
-
     def __init__(self):
         self.bux = 600
         self.buy = 500
-        self.count = random.randint(0, 100)
         self.image = load_image('pso/ca1.png')
 
     def draw(self):
