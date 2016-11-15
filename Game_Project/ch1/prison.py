@@ -13,6 +13,7 @@ class Bulid:
         self.bux = random.randint(100, 1100)
         self.buy = random.randint(100, 500)
         self.count = random.randint(0, 100)
+
         if self.count >= 97:
             self.ju = load_image('ju/red2.png')
         elif self.count > 80 and self.count < 97:

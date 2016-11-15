@@ -27,7 +27,7 @@ class Bar:
         self.ly = 627
         self.times = 2500
         self.life = 0
-        self.plus_count = 3.0
+        self.plus_count = 5.0
         self.sub_count = 1.0
         self.count_time = 0
         self.nimage = load_image('text/eng3.png')

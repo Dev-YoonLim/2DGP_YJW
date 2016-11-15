@@ -255,7 +255,7 @@ def draw():
 
 
 def main():
-    open_canvas(1280, 700)
+
 
 
     floor = Floor()
