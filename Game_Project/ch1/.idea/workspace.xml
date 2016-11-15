@@ -23,7 +23,7 @@
       <file leaf-file-name="start_state.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/start_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-121">
+            <state relative-caret-position="532">
               <caret line="28" column="15" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="15" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
@@ -35,7 +35,7 @@
       <file leaf-file-name="title_state.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/title_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
+            <state relative-caret-position="114">
               <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
@@ -47,8 +47,8 @@
       <file leaf-file-name="main_state_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main_state_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="235" column="17" selection-start-line="235" selection-start-column="17" selection-end-line="235" selection-end-column="17" />
+            <state relative-caret-position="386">
+              <caret line="225" column="24" selection-start-line="225" selection-start-column="24" selection-end-line="225" selection-end-column="24" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -59,8 +59,8 @@
       <file leaf-file-name="prison.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/prison.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="68" column="29" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
+            <state relative-caret-position="1444">
+              <caret line="76" column="47" selection-start-line="76" selection-start-column="47" selection-end-line="76" selection-end-column="47" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -68,10 +68,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="rect.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/python/Lib/site-packages/sdl2/rect.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="bs_state.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bs_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
+            <state relative-caret-position="513">
               <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
@@ -83,7 +93,7 @@
       <file leaf-file-name="time_obj.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/time_obj.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-364">
+            <state relative-caret-position="19">
               <caret line="49" column="49" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
               <folding />
             </state>
@@ -93,7 +103,7 @@
       <file leaf-file-name="men.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/men.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1330">
+            <state relative-caret-position="893">
               <caret line="71" column="21" selection-start-line="71" selection-start-column="21" selection-end-line="71" selection-end-column="21" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
@@ -106,7 +116,7 @@
         <entry file="file://D:/python/Lib/site-packages/pico2d.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="162">
-              <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+              <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -207,6 +217,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -227,8 +239,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -565,7 +575,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source.py" />
     <entry file="file://$PROJECT_DIR$/../../../../2DGIT/2016-2DGP/Labs/Lab03/move_character_with_key.py" />
     <entry file="file://$PROJECT_DIR$/../../../../2DGIT/2016-2DGP/Labs/Lab04/silsb4.py" />
     <entry file="file://$PROJECT_DIR$/source.py" />
@@ -667,24 +676,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/men.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1330">
-          <caret line="71" column="21" selection-start-line="71" selection-start-column="21" selection-end-line="71" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/time_obj.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-364">
-          <caret line="49" column="49" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main_npc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -695,26 +686,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bs_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
+        <state relative-caret-position="513">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/python/Lib/site-packages/pico2d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start_state.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-121">
-          <caret line="28" column="15" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="15" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -723,8 +696,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/title_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
+        <state relative-caret-position="114">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start_state.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="28" column="15" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="15" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -733,18 +716,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_state_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="235" column="17" selection-start-line="235" selection-start-column="17" selection-end-line="235" selection-end-column="17" />
+        <state relative-caret-position="386">
+          <caret line="225" column="24" selection-start-line="225" selection-start-column="24" selection-end-line="225" selection-end-column="24" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/men.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="893">
+          <caret line="71" column="21" selection-start-line="71" selection-start-column="21" selection-end-line="71" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/time_obj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="49" column="49" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/python/Lib/site-packages/sdl2/rect.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/python/Lib/site-packages/pico2d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/prison.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="68" column="29" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
+        <state relative-caret-position="1444">
+          <caret line="76" column="47" selection-start-line="76" selection-start-column="47" selection-end-line="76" selection-end-column="47" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

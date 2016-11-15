@@ -4,6 +4,8 @@ from time_obj import Bar
 import men
 
 men = None
+boomtime = 0.0
+boomcount = 0.0
 
 class Bulid:
 
@@ -52,27 +54,35 @@ class Boom:
     def __init__(self):
         self.bux = random.randint(100, 1100)
         self.buy = random.randint(100, 500)
-        self.roll = 0.0
         self.image = load_image('boom effect/boom/boom0.png')
         self.bframe = 0
         self.bstate = 0
         self.fcount = 0
         self.alcount = 0
+        self.boomroll = True
 
     def update(self):
-        self.alcount = (self.alcount +1) % 16
-        self.fcount = (self.fcount + 1 ) % 6
-        self.bframe = (self.bframe + 1 ) % 5
+        global boomtime, boomcount
+        self.alcount = (self.alcount +1) % 62
+        if boomtime == 200:
+            self.fcount = (self.fcount + 1 ) % 6
+            self.bframe = (self.bframe + 1 ) % 5
+            boomtime = 0
+        boomtime += 50
         if self.fcount > 4:
             self.bstate = (self.bstate + 1) % 3
             self.fcount = 0
-        if self.alcount > 14:
+        if self.alcount > 60:
             self.bux = random.randint(100, 1100)
             self.buy = random.randint(100, 500)
             self.alcount = 0
+            boomtime = 0
 
     def draw(self):
-        self.image.clip_draw(self.bframe * 222, self.bstate * 200, 260, 255, self.bux, self.buy)
+            self.image.clip_draw(self.bframe * 222, self.bstate * 200, 260, 255, self.bux, self.buy)
+
+
+
 
 
 
