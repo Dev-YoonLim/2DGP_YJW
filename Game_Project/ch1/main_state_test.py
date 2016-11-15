@@ -8,7 +8,7 @@ import time_obj
 import bs_state
 from pico2d import *
 from floors import Floor
-from prison import Bulid, Castle
+from prison import Bulid, Castle, Boom
 from men import Men
 from time_obj import Bar
 from main_npc import Mnpc
@@ -202,14 +202,16 @@ def nmcrush(men, npc):
 
 
 def create_world():
-    global bulid, bulids, men, floor, bar, castle, mnpc
+    global bulid, bulids, men, floor, bar, castle, mnpc, boom
     mnpc = Mnpc()
     bulid = Bulid()
+    boom = Boom()
     castle = Castle()
     bulids = [Bulid() for i in range(10)]
     men = Men()
     floor = Floor()
     bar = Bar()
+
 
 def destroy_world():
     global men, floor, bulid, bar
@@ -231,11 +233,10 @@ def update():
     men.update(frame_time)
     bar.update_t(frame_time)
     bar.update_l(frame_time)
+    boom.update()
     if men.draw() == True:
         for bulid in bulids:
             bulid.update(men)
-    if bar.next() == True:
-        game_framework.change_state(bs_state)
 
 def draw():
     clear_canvas()
@@ -244,6 +245,7 @@ def draw():
     bar.tbdraw()
     bar.lbdraw()
     bar.ndraw()
+    boom.draw()
     if time_obj.chup == False:
         for bulid in bulids:
             bulid.draw()

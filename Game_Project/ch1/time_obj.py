@@ -10,6 +10,7 @@ class Bar:
     RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
     RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
+
     def tbdraw(self):
         self.tbimage.draw(self.bx, self.by)
     def lbdraw(self):
@@ -26,8 +27,9 @@ class Bar:
         self.ly = 627
         self.times = 2500
         self.life = 0
-        self.plus_count = 4.0
+        self.plus_count = 3.0
         self.sub_count = 1.0
+        self.count_time = 0
         self.nimage = load_image('text/eng3.png')
         self.tbimage = load_image('bar/timebar6.png')
         self.lbimage = load_image('bar/timebar6.png')
@@ -72,10 +74,12 @@ class Bar:
         distance = Bar.RUN_SPEED_PPS * frame_time
         if chup == True and self.sub_count < 6:
             self.life = self.life + distance/self.sub_count
-            if self.life > 2100:
+            self.count_time = self.count_time + distance
+            if self.count_time > 2500:
                 chup = False
                 self.times = self.life
                 self.life = 0
+                self.count_time = 0
         if self.life >= 2000:
             self.lx = 600
             self.ly = 630

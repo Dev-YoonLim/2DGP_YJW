@@ -1,5 +1,6 @@
 import game_framework
 import title_state
+import main_state_test
 from pico2d import *
 
 
@@ -10,8 +11,7 @@ logo_time = 0.0
 
 def enter():
     global image
-    open_canvas(1200, 700)
-    image = load_image('s.png')
+    image = load_image('screen/bs_next.png')
 
 
 def exit():
@@ -25,7 +25,7 @@ def update():
     if (logo_time > 1.0):
         logo_time = 0
         #game_framework.quit()
-        game_framework.push_state(title_state)
+        game_framework.change_state(main_state_test)
     delay(0.01)
     logo_time += 0.01
 
@@ -40,7 +40,6 @@ def draw():
 
 
 def handle_events():
-    events = get_events()
     pass
 
 
