@@ -52,6 +52,7 @@ class Boom:
     def __init__(self):
         self.bux = random.randint(100, 1100)
         self.buy = random.randint(100, 500)
+        self.roll = 0.0
         self.image = load_image('boom effect/boom/boom0.png')
         self.bframe = 0
         self.bstate = 0
@@ -72,6 +73,7 @@ class Boom:
 
     def draw(self):
         self.image.clip_draw(self.bframe * 222, self.bstate * 200, 260, 255, self.bux, self.buy)
+
 
 
 

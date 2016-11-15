@@ -245,8 +245,8 @@ def draw():
     bar.tbdraw()
     bar.lbdraw()
     bar.ndraw()
-    boom.draw()
     if time_obj.chup == False:
+        boom.draw()
         for bulid in bulids:
             bulid.draw()
     elif time_obj.chup == True:
