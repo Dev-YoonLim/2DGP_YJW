@@ -3,7 +3,7 @@ import game_framework
 import time_obj
 from pico2d import *
 from floors import Floor
-from prison import Bulid, Castle, Boom, Blue, Green, Red
+from prison import Bulid, Castle, Boom, Bule, Green, Red
 from men import Men
 from time_obj import Bar
 from main_npc import Mnpc
@@ -50,17 +50,17 @@ def handle_events():
 
 def create_world():
     global bulid, men, floor, bar, castle, mnpc, boom, bulids
-    global blue, green, red, blues, greens, reds
+    global bule, green, red, bules, greens, reds
     mnpc = Mnpc()
 
     bulid = Bulid()
     bulids = [Bulid() for i in range(10)]
-    blue = Blue()
-    blues = [Blue() for i in range(12)]
+    bule = Bule()
+    bules = [Bule() for i in range(6)]
     green = Green()
-    greens = [Green() for i in range(6)]
+    greens = [Green() for i in range(3)]
     red = Red()
-    reds = [Red() for i in range(2)]
+    reds = [Red() for i in range(1)]
 
     boom = Boom()
     castle = Castle()
@@ -86,19 +86,15 @@ def exit():
     close_canvas()
 
 def update():
-    global hit_stack, blues, greens, reds
+    global hit_stack, bulids
     frame_time = get_frame_time()
     men.update(frame_time)
     bar.update_t(frame_time)
     bar.update_l(frame_time)
     boom.update()
     if men.draw() == True:
-        blues = [Blue() for i in range(12)]
-        blue.update(men)
-        greens = [Green() for i in range(6)]
-        green.update(men)
-        reds = [Red() for i in range(2)]
-        red.update(men)
+        bulids = [Bulid() for i in range(10)]
+        bulid.update(men)
 
 
 
@@ -113,24 +109,18 @@ def draw():
     bar.ndraw()
     if time_obj.chup == False:
         boom.draw()
-        for blue in blues:
-            blue.draw()
-            if crush(men, blue):
-                blues.remove(blue)
-        for green in greens:
-            green.draw()
-            if crush(men, green):
-                greens.remove(green)
-        for red in reds:
-            red.draw()
-            if crush(men, red):
-                reds.remove(red)
-
-
+        for bulid in bulids:
+            bulid.draw()
+            bulid.draw_bb()
+        for bulid in bulids:
+            if crush(men, bulid):
+                bulids.remove(bulid)
     elif time_obj.chup == True:
         castle.draw()
         mnpc.draw()
 
 
     update_canvas()
+
+
 
