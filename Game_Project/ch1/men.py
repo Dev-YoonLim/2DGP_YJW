@@ -54,15 +54,16 @@ class Men:
         elif self.state == self.LEFT_RUN and runch == 3:
             self.state = self.UP_RUN
 
+
     def handle_down_run(self, frame_time):
         distance = Men.RUN_SPEED_PPS * frame_time
         self.move = distance
         self.y -= self.move
-
         if self.state == self.DOWN_RUN and runch == 2:
             self.state = self.RIGHT_RUN
         elif self.state == self.DOWN_RUN and runch == 1:
             self.state = self.LEFT_RUN
+
 
     def handle_right_run(self, frame_time):
         distance = Men.RUN_SPEED_PPS * frame_time
