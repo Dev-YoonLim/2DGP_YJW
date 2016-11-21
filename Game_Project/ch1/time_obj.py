@@ -1,5 +1,4 @@
 from pico2d import*
-import main_state_test
 
 chup = False
 

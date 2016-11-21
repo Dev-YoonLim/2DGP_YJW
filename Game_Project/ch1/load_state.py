@@ -1,6 +1,5 @@
 import game_framework
 import main_state_test
-import chup_state
 from pico2d import *
 
 
