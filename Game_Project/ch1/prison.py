@@ -146,8 +146,8 @@ class Bulid:
 class Castle:
 
     def __init__(self):
-        self.bux = 600
-        self.buy = 500
+        self.bux = 900
+        self.buy = 400
         self.image = load_image('pso/ca1.png')
 
     def draw(self):

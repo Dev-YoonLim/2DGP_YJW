@@ -1,6 +1,7 @@
 
 import game_framework
 import time_obj
+import end_state
 from pico2d import *
 from floors import Floor
 from prison import Bulid, Castle, Boom, Blue, Green, Red
@@ -10,12 +11,11 @@ from main_npc import Mnpc
 
 
 running = None
-runch = 0
-point = False
-
+blue_point = False
+green_point = False
+red_point = False
 current_time = 0.0
-hit_stack = 0.0
-
+sum_point = 0.0
 
 def crush(a, b):
     left_a, bottom_a, right_a, top_a = a.get_bb()
@@ -83,7 +83,6 @@ def enter():
 
 def exit():
     destroy_world()
-    close_canvas()
 
 def update():
     global hit_stack, blues, greens, reds
@@ -91,7 +90,10 @@ def update():
     men.update(frame_time)
     bar.update_t(frame_time)
     bar.update_l(frame_time)
+    bar.update_p()
     boom.update()
+    bar.count_times(frame_time)
+    bar.sum_points()
     if men.draw() == True:
         blues = [Blue() for i in range(12)]
         blue.update(men)
@@ -99,17 +101,21 @@ def update():
         green.update(men)
         reds = [Red() for i in range(2)]
         red.update(men)
+    if bar.end_time() == True:
+        game_framework.change_state(end_state)
 
 
 
 
 def draw():
+    global blue_point, green_point, red_point, sum_point
     clear_canvas()
     floor.draw()
     men.draw()
     men.draw_bb()
     bar.tbdraw()
     bar.lbdraw()
+    bar.pbdraw()
     bar.ndraw()
     if time_obj.chup == False:
         boom.draw()
@@ -117,19 +123,24 @@ def draw():
             blue.draw()
             if crush(men, blue):
                 blues.remove(blue)
+                blue_point = True
         for green in greens:
             green.draw()
             if crush(men, green):
                 greens.remove(green)
+                green_point = True
         for red in reds:
             red.draw()
             if crush(men, red):
                 reds.remove(red)
+                red_point = True
 
 
     elif time_obj.chup == True:
-        castle.draw()
         mnpc.draw()
+        if crush(men, mnpc):
+            bar.chcrush_points()
+
 
 
     update_canvas()

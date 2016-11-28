@@ -1,20 +1,20 @@
 import game_framework
-import load_state
+import title_state
 from pico2d import *
 
 
-name = "TitleState"
+name = "EndState"
 image = None
-
+logo_time = 0.0
 
 def enter():
-    global image
-    image = load_image('screen/title_floor.png')
+    global image0
+    image0 = load_image('End/end_one.png')
 
 
 def exit():
-    global image
-    del(image)
+    global image0
+    del(image0)
 
 
 def handle_events():
@@ -25,34 +25,19 @@ def handle_events():
         else:
             if(event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
-            elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.change_state(load_state)
 
 
 def draw():
     clear_canvas()
-    image.draw(600,350)
+    image0.draw(600,350)
     update_canvas()
 
 
-
-
-
-
-
 def update():
-    pass
+    global logo_time
 
-
-def pause():
-    pass
-
-
-def resume():
-    pass
-
-
-
-
-
-
+    if logo_time > 1.0:
+        logo_time = 0
+        close_canvas()
+    delay(0.01)
+    logo_time += 0.005
