@@ -1,5 +1,5 @@
 import game_framework
-import title_state
+import ending_state
 from pico2d import *
 
 
@@ -9,8 +9,7 @@ logo_time = 0.0
 
 def enter():
     global image0
-    image0 = load_image('End/end_one.png')
-
+    image0 = load_image('event_s/timeover.png')
 
 def exit():
     global image0
@@ -34,10 +33,13 @@ def draw():
 
 
 def update():
-    global logo_time
+    global logo_time, image0
 
     if logo_time > 1.0:
-        logo_time = 0
+        image0 = load_image('End/end_one.png')
+    if logo_time > 1.5:
         close_canvas()
+        game_framework.change_state(ending_state)
+
     delay(0.01)
     logo_time += 0.005

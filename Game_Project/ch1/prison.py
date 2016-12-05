@@ -1,10 +1,12 @@
 import random
 from pico2d import *
 from time_obj import Bar
+from men import Men
 
 men = None
 boomtime = 0.0
 boomcount = 0.0
+juch = False
 
 class Blue:
     def __init__(self):
@@ -12,22 +14,22 @@ class Blue:
         self.buy = random.randint(100, 500)
         self.count = random.randint(0, 100)
 
-        self.ju = load_image('ju/blue2.png')
-        self.image = load_image('pso/gamok3.png')
+        self.jub = load_image('ju/blue2.png')
+        self.image = load_image('pso/gamok4.png')
 
     def get_bb(self):
-        return self.bux - 50, self.buy - 50, self.bux + 50, self.buy + 50
+        return self.bux - 45, self.buy - 45, self.bux + 45, self.buy + 45
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
+
 
     def draw(self):
         global bar
         bar = Bar()
         if bar.update_t != False:
-            if self.count <= 80:
-                self.image.draw(self.bux, self.buy)
-                self.ju.draw(self.bux, self.buy - 5)
+            self.image.draw(self.bux, self.buy)
+            self.jub.draw(self.bux, self.buy - 5)
 
     def update(self, men):
         global bulid, bulids
@@ -40,24 +42,33 @@ class Green:
     def __init__(self):
         self.bux = random.randint(100, 1100)
         self.buy = random.randint(100, 500)
+        self.bx = random.randint(100, 1100)
+        self.by = random.randint(100, 500)
         self.count = random.randint(0, 100)
 
-        self.ju = load_image('ju/green2.png')
-        self.image = load_image('pso/gamok3.png')
+        self.jug = load_image('ju/green2.png')
+        self.jub = load_image('ju/blue2.png')
+        self.image = load_image('pso/gamok4.png')
 
     def get_bb(self):
-        return self.bux - 50, self.buy - 50, self.bux + 50, self.buy + 50
+        return self.bux - 40, self.buy - 40, self.bux + 40, self.buy + 40
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
     def draw(self):
-        global bar
+        global bar, juch
         bar = Bar()
         if bar.update_t != False:
-            if self.count > 80 and self.count < 97:
+            if self.count > 60 and self.count < 90:
+                juch = False
                 self.image.draw(self.bux, self.buy)
-                self.ju.draw(self.bux, self.buy - 5)
+                self.jug.draw(self.bux, self.buy - 5)
+            else:
+                juch = True
+                self.image.draw(self.bux, self.buy)
+                self.jub.draw(self.bux, self.buy - 5)
+
 
     def update(self, men):
         global bulid, bulids
@@ -72,23 +83,30 @@ class Red:
         self.bux = random.randint(100, 1100)
         self.buy = random.randint(100, 500)
         self.count = random.randint(0, 100)
-
-        self.ju = load_image('ju/red2.png')
-        self.image = load_image('pso/gamok3.png')
+        self.bx = random.randint(100, 1100)
+        self.by = random.randint(100, 500)
+        self.jur = load_image('ju/red2.png')
+        self.jub = load_image('ju/blue2.png')
+        self.image = load_image('pso/gamok4.png')
 
     def get_bb(self):
-        return self.bux - 50, self.buy - 50, self.bux + 50, self.buy + 50
+        return self.bux - 40, self.buy - 40, self.bux + 40, self.buy + 40
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
     def draw(self):
-        global bar
+        global bar, juch
         bar = Bar()
         if bar.update_t != False:
-            if self.count >= 97:
+            if self.count >= 90:
+                juch = False
                 self.image.draw(self.bux, self.buy)
-                self.ju.draw(self.bux, self.buy - 5)
+                self.jur.draw(self.bux, self.buy - 5)
+            else:
+                juch = True
+                self.image.draw(self.bux, self.buy)
+                self.jub.draw(self.bux, self.buy - 5)
 
     def update(self, men):
         global bulid, bulids
@@ -112,8 +130,8 @@ class Bulid:
             self.ju = load_image('ju/green2.png')
         elif self.count <= 80:
             self.ju = load_image('ju/blue2.png')
-        self.image = load_image('pso/gamok3.png')
-        self.image0 = load_image('pso/gamok3.png')
+        self.image = load_image('pso/gamok4.png')
+        self.image0 = load_image('pso/gamok4.png')
 
     def get_bb(self):
         return self.bux - 50, self.buy - 50, self.bux + 50, self.buy + 50
@@ -142,20 +160,10 @@ class Bulid:
 
 
 
-
-class Castle:
-
-    def __init__(self):
-        self.bux = 900
-        self.buy = 400
-        self.image = load_image('pso/ca1.png')
-
-    def draw(self):
-        self.image.draw(self.bux, self.buy)
-
-
 class Boom:
     def __init__(self):
+        global men
+        men = Men()
         self.bux = random.randint(100, 1100)
         self.buy = random.randint(100, 500)
         self.image = load_image('boom effect/boom/boom0.png')
@@ -178,12 +186,18 @@ class Boom:
             self.fcount = 0
         if self.alcount > 60:
             self.bux = random.randint(100, 1100)
-            self.buy = random.randint(100, 500)
+            self.buy = random.randint(100, 600)
             self.alcount = 0
             boomtime = 0
 
     def draw(self):
             self.image.clip_draw(self.bframe * 222, self.bstate * 200, 260, 255, self.bux, self.buy)
+
+    def get_bb(self):
+        return self.bux - 30, self.buy - 30, self.bux + 30, self.buy + 30
+
+    def draw_bb(self):
+        draw_rectangle(*self.get_bb())
 
 
 

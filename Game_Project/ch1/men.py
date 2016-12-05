@@ -17,7 +17,7 @@ class Men:
     def handle_event(self, event):
         global running
         global runch
-        events = get_events()
+        #events = get_events()
         if event.type == SDL_KEYDOWN:
             if event.key == SDLK_LEFT:
                 if runch == 0:
@@ -128,4 +128,3 @@ class Men:
         self.dir = 1
 
         self.c1image = load_image('char_in/men3.png')
-        self.c2image = load_image('char_in/men1.png')

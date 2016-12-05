@@ -2,22 +2,27 @@
 import game_framework
 import time_obj
 import end_state
+import prison
 from pico2d import *
 from floors import Floor
-from prison import Bulid, Castle, Boom, Blue, Green, Red
+from prison import Bulid, Boom, Blue, Green, Red
 from men import Men
 from time_obj import Bar
 from main_npc import Mnpc
+from mid_event_state import event_01, event_00
 
 
 running = None
-blue_point = False
-green_point = False
-red_point = False
+point_state = 0
 current_time = 0.0
 sum_point = 0.0
+game_ftpoint = 0.0
+event_on = False
+tutorial = True
+game_set = False
 
-def crush(a, b):
+
+def high_crush(a, b):
     left_a, bottom_a, right_a, top_a = a.get_bb()
     left_b, bottom_b, right_b, top_b = b.get_bb()
 
@@ -36,7 +41,6 @@ def get_frame_time():
 
 frame_time = get_frame_time()
 
-
 def handle_events():
     events = get_events()
     for event in events:
@@ -44,15 +48,23 @@ def handle_events():
             game_framework.quit()
         if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.quit()
-        else :
+        else:
             men.handle_event(event)
+        if time_obj.chup == True:
+            if(event.type, event.key) == (SDL_KEYDOWN, SDLK_y):
+                bar.ch_points_life()
+            elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_n):
+                bar.ch_points_times()
+                bar.ch_level()
 
 
 def create_world():
     global bulid, men, floor, bar, castle, mnpc, boom, bulids
-    global blue, green, red, blues, greens, reds
+    global blue, green, red, reds, blues, greens, redsbar
+    global event01, event00
+    global game_set
     mnpc = Mnpc()
-
+    event00 = event_00()
     bulid = Bulid()
     bulids = [Bulid() for i in range(10)]
     blue = Blue()
@@ -63,7 +75,6 @@ def create_world():
     reds = [Red() for i in range(2)]
 
     boom = Boom()
-    castle = Castle()
     men = Men()
     floor = Floor()
     bar = Bar()
@@ -85,63 +96,86 @@ def exit():
     destroy_world()
 
 def update():
-    global hit_stack, blues, greens, reds
+    global hit_stack, blues, greens, reds, tutorial, game_ftpoint
     frame_time = get_frame_time()
     men.update(frame_time)
     bar.update_t(frame_time)
     bar.update_l(frame_time)
     bar.update_p()
+    bar.ch_check_p()
     boom.update()
-    bar.count_times(frame_time)
     bar.sum_points()
+    bar.ch_bar(frame_time)
+    if time_obj.chup == True:
+        event00.event00_time()
     if men.draw() == True:
-        blues = [Blue() for i in range(12)]
+        blues = [Blue() for i in range(8)]
         blue.update(men)
-        greens = [Green() for i in range(6)]
+        greens = [Green() for i in range(3)]
         green.update(men)
-        reds = [Red() for i in range(2)]
+        reds = [Red() for i in range(1)]
         red.update(men)
+        floor.normal_update()
     if bar.end_time() == True:
         game_framework.change_state(end_state)
-
+    if game_set == False:
+        game_ftpoint = 0.00001
+    elif game_set == True:
+        game_ftpoint = frame_time
 
 
 
 def draw():
-    global blue_point, green_point, red_point, sum_point
+    global point_state, sum_point, tutorial, game_set
     clear_canvas()
     floor.draw()
     men.draw()
     men.draw_bb()
-    bar.tbdraw()
     bar.lbdraw()
     bar.pbdraw()
     bar.ndraw()
+    bar.tbdraw()
     if time_obj.chup == False:
+        point_state = 0
         boom.draw()
+        boom.draw_bb()
+        if high_crush(men, boom):
+            point_state = 4
         for blue in blues:
             blue.draw()
-            if crush(men, blue):
+            blue.draw_bb()
+            if high_crush(men, blue):
                 blues.remove(blue)
-                blue_point = True
+                point_state = 1
         for green in greens:
             green.draw()
-            if crush(men, green):
+            green.draw_bb()
+            if high_crush(men, green) and prison.juch == False:
                 greens.remove(green)
-                green_point = True
+                point_state = 2
+            elif high_crush(men, green) and prison.juch == True:
+                greens.remove(green)
+                point_state = 1
         for red in reds:
             red.draw()
-            if crush(men, red):
+            red.draw_bb()
+            if high_crush(men, red) and prison.juch == False:
                 reds.remove(red)
-                red_point = True
-
-
+                point_state = 3
+            elif high_crush(men, red) and prison.juch == True:
+                reds.remove(red)
+                point_state = 1
     elif time_obj.chup == True:
-        mnpc.draw()
-        if crush(men, mnpc):
-            bar.chcrush_points()
+        if tutorial == True:
+            event00.draw()
+            if tutorial == False:
+                mnpc.draw()
+        else:
+            mnpc.draw()
+        #if crush(men, mnpc):
 
 
 
     update_canvas()
+    game_set = True
 

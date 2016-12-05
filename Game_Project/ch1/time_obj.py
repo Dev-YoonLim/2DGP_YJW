@@ -1,8 +1,10 @@
 from pico2d import*
 import main_state_test
 
-chup = False
 
+ft_swith = False
+chup = False
+ch_ending = 0
 
 class Bar:
     chup = False
@@ -11,16 +13,6 @@ class Bar:
     RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
     RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
     RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
-
-    def tbdraw(self):
-        self.tbimage.draw(self.tx, self.ty)
-    def lbdraw(self):
-        self.lbimage.draw(self.lx, self.ly)
-    def ndraw(self):
-        self.nimage.draw(self.nx, self.ny)
-    def pbdraw(self):
-        self.pbimage.draw(self.px, self.py)
 
     def __init__(self):
         self.nx = 50
@@ -34,19 +26,17 @@ class Bar:
         self.times = 2500
         self.life = 0
         self.points = 100
-        self.plus_count = 5.0
+        self.chup_count = 5.0
         self.count_time = 0
         self.blue_sum = 0.0
         self.green_sum = 0.0
         self.red_sum = 0.0
         self.all_sum = 0.0
+        self.all_gauge = 0.0
         self.nimage = load_image('text/eng5.png')
 
     def update_t(self, frame_time):
         global chup
-        distance = Bar.RUN_SPEED_PPS * frame_time
-        if self.times >= 0 and self.plus_count > 0 and chup == False:
-            self.times = self.times - (distance/self.plus_count)
         if self.times >= 2000:
             self.tx = 600
             self.ty = 670
@@ -103,33 +93,6 @@ class Bar:
 
     def update_p(self):
         global chpoint
-        if self.times >= 0 and main_state_test.blue_point == True:
-            self.points += 50
-            self.blue_sum += 50
-            main_state_test.blue_point = False
-
-        if main_state_test.green_point == True:
-            if self.life >= 300:
-                self.life -= 300
-                self.points += 300
-                self.green_sum += 300
-                main_state_test.green_point = False
-            elif self.life < 300:
-                self.times = self.times - 300
-                self.points += 10
-                self.green_sum += 10
-                main_state_test.green_point = False
-
-        if self.times >= 0 and main_state_test.red_point == True:
-            if self.life >= 1000:
-                self.life -= 1000
-                self.points += 700
-                self.red_sum += 1000
-                main_state_test.red_point = False
-            elif self.life < 1000:
-                self.points += 20
-                self.red_sum += 20
-                main_state_test.red_point = False
 
         if self.points >= 2000:
             self.px = 600
@@ -156,37 +119,104 @@ class Bar:
             self.py = 595
             self.pbimage = load_image('bar/timebar6_point.png')
 
-    def count_times(self, frame_time):
-        global chup, sub_count
-        distance = Bar.RUN_SPEED_PPS * frame_time
-        if self.times > 0:
-            self.count_time = 0
-        elif self.times < 0:
-            chup = True
-            self.plus_count = self.plus_count - 0.5
+    def ch_bar(self, frame_time):
+        global ft_swith
+        distance = Bar.RUN_SPEED_PPS * main_state_test.game_ftpoint
+        if self.times >= 0 and self.chup_count > 0 and chup == False:
+            self.times = self.times - (distance / self.chup_count)
+            print('%f' % main_state_test.game_ftpoint)
+        if  main_state_test.point_state == 1:
+            print("blue up")
+            self.blue_sum += 50
+            self.points += 50
+            main_state_test.point_state = 0
+
+        elif main_state_test.point_state == 2:
+            print("green up")
+            if self.life > 300:
+                self.life -= 300
+                self.green_sum += 500
+                self.points += 400
+                main_state_test.point_state = 0
+            else:
+                self.times -= 300
+                self.green_sum += 500
+                self.points += 150
+                main_state_test.point_state = 0
+
+        elif main_state_test.point_state == 3:
+            print("red up")
+            if self.life > 1000:
+                self.life -= 700
+                self.red_sum += 1500
+                self.points += 1000
+                main_state_test.point_state = 0
+            else:
+                self.times -= 700
+                self.red_sum += 1500
+                self.points += 350
+                main_state_test.point_state = 0
+
+        if main_state_test.point_state == 4:
+            self.times -= 200
+            main_state_test.point_state = 0
+
+
+    def tbdraw(self):
+        self.tbimage.draw(self.tx, self.ty)
+    def lbdraw(self):
+        self.lbimage.draw(self.lx, self.ly)
+    def ndraw(self):
+        self.nimage.draw(self.nx, self.ny)
+    def pbdraw(self):
+        self.pbimage.draw(self.px, self.py)
+
+    def ch_points_times(self):
+        global chup
+        self.times = self.points
+        self.points = 0
+        chup = False
+
+    def ch_points_life(self):
+        if self.points > 100:
+            self.life += 150
+            self.points -= 100
+
+    def ch_level(self):
+        if self.chup_count < 1:
+            self.chup_count = self.chup_count*0.5
+        else:
+            self.chup_count = self.chup_count - 0.5
+
+    def ch_check_p(self):
+        global chup
+        if self.times < 0:
             self.times = 0
-        if chup == True:
-            self.count_time = self.count_time + distance
-        if self.count_time > 2500:
-            self.times = self.points
-            self.points = 0
-            chup = False
+            chup = True
 
-
-    def chcrush_points(self):
-        global chpoint
-        if self.count_time <= 2500 and self.points > 10:
-            self.life += 10
-            self.points -= 10
 
     def sum_points(self):
+        global ch_ending
         self.all_sum = self.blue_sum + self.green_sum + self.red_sum
-        return self.all_sum
+        if self.all_sum < 5000 and self.all_sum > 3000:
+            ch_ending = 0
+        elif self.all_sum >= 5000 and self.all_sum < 15000:
+            ch_ending = 1
+        elif self.all_sum >= 15000 and self.all_sum < 20000:
+            ch_ending = 2
+        elif self.all_sum <= 3000 or (self.blue_sum > 10000 and self.green_sum  > 5000 and self.red_sum > 4500):
+            ch_ending = 3
+        elif self.all_sum > 20000 or (self.blue_sum > 15000 and self.red_sum > 4500):
+            ch_ending = 4
+
+
+
+    def sum_gauge(self):
+        self.all_gauge = self.times + self.life + self.points
 
     def end_time(self):
-        if self.plus_count == 0:
+        if self.times <= 100 and self.points <= 100:
             return True
-
 
 
 

@@ -7,6 +7,7 @@ name = "StartState"
 image = None
 logo_time = 0.0
 
+
 def enter():
     global image
     open_canvas(1200, 700)
