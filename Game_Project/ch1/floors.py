@@ -10,8 +10,7 @@ class Floor:
         self.eventfloor = False
         self.image = load_image('floor_in/block3_1_floor.png')
         self.image0 = load_image('event_s/darkface.png')
-        if last_true_one.last_stage == False:
-            self.bgm = load_music('sound/main_sound1.mp3')
+        self.bgm = load_music('bgm/main/main_game.mp3')
         self.darktext = load_image('text/hehe.png')
         self.bgm.set_volume(32)
         self.bgm.repeat_play()

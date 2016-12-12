@@ -102,7 +102,9 @@ class Men:
         elif self.y < 0:
             self.y = 670
             return True
+        self.image.draw(self.x, self.y)
         self.c1image.clip_draw(self.frame * 50, self.state * 47, 50, 43, self.x, self.y)
+
 
 
     def get_bb(self):
@@ -126,5 +128,5 @@ class Men:
         self.state = self.UP_RUN
         self.total_frames = 0
         self.dir = 1
-
+        self.image = load_image('screen/white.png')
         self.c1image = load_image('char_in/men3.png')

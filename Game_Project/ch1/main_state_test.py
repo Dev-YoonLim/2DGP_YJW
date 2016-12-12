@@ -3,6 +3,7 @@ import game_framework
 import time_obj
 import end_state
 import prison
+import random
 from pico2d import *
 from floors import Floor
 from prison import Bulid, Boom, Blue, Green, Red
@@ -20,6 +21,9 @@ game_ftpoint = 0.0
 event_on = False
 tutorial = True
 game_set = False
+lowblackimage = None
+blackiamge = None
+blackcount = 0
 
 
 def high_crush(a, b):
@@ -62,7 +66,7 @@ def create_world():
     global bulid, men, floor, bar, castle, mnpc, boom, bulids
     global blue, green, red, reds, blues, greens, redsbar
     global event01, event00
-    global game_set
+    global game_set, blackimage, lowblackimage
     mnpc = Mnpc()
     event00 = event_00()
     bulid = Bulid()
@@ -78,6 +82,9 @@ def create_world():
     men = Men()
     floor = Floor()
     bar = Bar()
+    blackimage = load_image('event_s/darkface.png')
+    lowblackimage = load_image('screen/low_black.png')
+
 
 
 
@@ -96,7 +103,7 @@ def exit():
     destroy_world()
 
 def update():
-    global hit_stack, blues, greens, reds, tutorial, game_ftpoint
+    global hit_stack, blues, greens, reds, tutorial, game_ftpoint, blackcount
     frame_time = get_frame_time()
     men.update(frame_time)
     bar.update_t(frame_time)
@@ -106,6 +113,7 @@ def update():
     boom.update()
     bar.sum_points()
     bar.ch_bar(frame_time)
+    blackcount = random.randint(0, 10000)
     if time_obj.chup == True:
         event00.event00_time()
     if men.draw() == True:
@@ -129,12 +137,6 @@ def draw():
     global point_state, sum_point, tutorial, game_set
     clear_canvas()
     floor.draw()
-    men.draw()
-    men.draw_bb()
-    bar.lbdraw()
-    bar.pbdraw()
-    bar.ndraw()
-    bar.tbdraw()
     if time_obj.chup == False:
         point_state = 0
         boom.draw()
@@ -165,6 +167,16 @@ def draw():
             elif high_crush(men, red) and prison.juch == True:
                 reds.remove(red)
                 point_state = 1
+    lowblackimage.draw(600, 350)
+    men.draw()
+    men.draw_bb()
+    bar.lbdraw()
+    bar.pbdraw()
+    bar.ndraw()
+    bar.tbdraw()
+    if blackcount > 9995:
+        blackimage.draw(600, 350)
+        blackimage.draw(600, 350)
     elif time_obj.chup == True:
         if tutorial == True:
             event00.draw()

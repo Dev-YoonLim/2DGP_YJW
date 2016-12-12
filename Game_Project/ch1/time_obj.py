@@ -158,7 +158,7 @@ class Bar:
                 main_state_test.point_state = 0
 
         if main_state_test.point_state == 4:
-            self.times -= 200
+            self.times -= 10
             main_state_test.point_state = 0
 
 
@@ -204,9 +204,9 @@ class Bar:
             ch_ending = 1
         elif self.all_sum >= 15000 and self.all_sum < 20000:
             ch_ending = 2
-        elif self.all_sum <= 3000 or (self.blue_sum > 10000 and self.green_sum  > 5000 and self.red_sum > 4500):
+        elif self.all_sum >= 23000 or (self.blue_sum > 15000 and self.green_sum  > 5000 and self.red_sum > 4500):
             ch_ending = 3
-        elif self.all_sum > 20000 or (self.blue_sum > 15000 and self.red_sum > 4500):
+        elif self.all_sum > 25000 or (self.blue_sum > 20000 and self.red_sum > 4500):
             ch_ending = 4
 
 

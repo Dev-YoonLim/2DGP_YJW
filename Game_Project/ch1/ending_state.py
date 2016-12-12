@@ -4,7 +4,8 @@ import last_true_one
 from time_obj import Bar
 import time_obj
 
-ending_times = 0.0
+ending_times = 0
+bgm = None
 
 class Bad:
     def __init__(self):
@@ -17,11 +18,11 @@ class Bad:
 
     def update(self):
         global ending_times
-        if ending_times >= 3 and ending_times < 4:
+        if ending_times == 1:
             self.image = load_image('event_e/mu.png')
-        elif ending_times >= 4:
+        elif ending_times == 2:
             self.image = load_image('event_e/bad_die.png')
-        if ending_times > 5:
+        elif ending_times == 3:
             ending_times = 10
 
 
@@ -36,11 +37,11 @@ class Normal:
 
     def update(self):
         global ending_times
-        if ending_times >= 3 and ending_times < 4:
+        if ending_times == 1:
             self.image = load_image('event_e/mu2.png')
-        elif ending_times >= 4:
+        elif ending_times == 2:
             self.image = load_image('event_e/normal_die.png')
-        if ending_times > 5:
+        if ending_times == 3:
             ending_times = 10
 
 
@@ -55,11 +56,11 @@ class Good:
 
     def update(self):
         global ending_times
-        if ending_times >= 3 and ending_times < 4:
+        if ending_times == 1:
             self.image = load_image('event_e/mu3.png')
-        elif ending_times >= 4:
+        elif ending_times == 2:
             self.image = load_image('event_e/normal_die.png')
-        if ending_times > 5:
+        if ending_times == 3:
             ending_times = 10
 
 class Trues:
@@ -73,25 +74,25 @@ class Trues:
 
     def update(self):
         global ending_times
-        if ending_times >= 3 and ending_times < 4:
+        if ending_times == 1:
             self.image = load_image('event_e/trues_um.png')
-        elif ending_times >= 4 and ending_times < 5:
+        elif ending_times == 2:
             self.image = load_image('event_e/trues_wait.png')
-        elif ending_times >= 5 and ending_times < 6:
+        elif ending_times == 3:
             self.image = load_image('event_e/trues_yami.png')
-        elif ending_times >= 6 and ending_times < 7:
+        elif ending_times == 4:
             self.image = load_image('event_e/trues_stop!!.png')
-        elif ending_times >= 7 and ending_times < 8:
+        elif ending_times == 5:
             self.image = load_image('event_e/trues_yami2.png')
-        elif ending_times >= 8 and ending_times < 9:
+        elif ending_times == 6:
             self.image = load_image('event_e/trues_rollback.png')
-        elif ending_times >= 9 and ending_times < 10:
+        elif ending_times == 7:
             self.image = load_image('event_e/trues_uha.png')
-        elif ending_times >= 10 and ending_times < 11:
+        elif ending_times == 8:
             self.image = load_image('event_e/goodyami.png')
-        elif ending_times >= 11 and ending_times < 12:
+        elif ending_times == 9:
             self.image = load_image('event_e/goodyami.png')
-        if ending_times > 11:
+        elif ending_times == 10:
             close_canvas()
             game_framework.change_state(last_true_one)
 
@@ -107,11 +108,11 @@ class Hidden:
 
     def update(self):
         global ending_times
-        if ending_times >= 3 and ending_times < 4:
+        if ending_times == 1:
             self.image = load_image('event_e/mu3.png')
-        elif ending_times >= 4:
+        elif ending_times == 2:
             self.image = load_image('event_e/blue_die.png')
-        if ending_times > 5:
+        if ending_times == 3:
             ending_times = 10
 
 class Trues_win:
@@ -125,11 +126,11 @@ class Trues_win:
 
     def update(self):
         global ending_times
-        if ending_times >= 3 and ending_times < 4:
+        if ending_times == 1:
             self.image = load_image('event_e/mu3.png')
-        elif ending_times >= 4:
+        elif ending_times == 2:
             self.image = load_image('event_e/blue_die.png')
-        if ending_times > 5:
+        if ending_times == 3:
             ending_times = 10
 
 
@@ -144,17 +145,19 @@ class Trues_lose:
 
     def update(self):
         global ending_times
-        if ending_times >= 3 and ending_times < 4:
+        if ending_times == 1:
             self.image = load_image('event_e/mu3.png')
-        elif ending_times >= 4:
+        elif ending_times == 2:
             self.image = load_image('event_e/blue_die.png')
-        if ending_times > 5:
+        if ending_times == 3:
             ending_times = 10
+
+
 
 
 def enter():
     global bad, normal, good, trues, hidden
-    global bar
+    global bar, bgm
     delay(2)
     open_canvas(1200, 700)
     bad = Bad()
@@ -164,11 +167,18 @@ def enter():
     hidden = Hidden()
 
     bar = Bar()
+    if time_obj.ch_ending != 4:
+        bgm = load_music('bgm/end/ho.mp3')
+        bgm.set_volume(64)
+        bgm.repeat_play()
 
 def exit():
-    pass
+    global bgm, image
+    del(bgm)
+    del(image)
 
 def handle_events():
+    global ending_times
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -176,6 +186,8 @@ def handle_events():
         else:
             if(event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
+            elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+                ending_times += 1
 
 
 def draw():
@@ -196,9 +208,9 @@ def draw():
 
 def update():
     global bad, ending_times
-    if ending_times == 11:
+    if ending_times == 10:
+        game_framework.quit()
         close_canvas()
-    ending_times += 0.05
     if time_obj.ch_ending == 0:
         bad.update()
     elif time_obj.ch_ending == 1:

@@ -8,12 +8,15 @@ level = 0.0
 name = "EventState"
 space_on = False
 event_time = 1
-
+bgm = None
 
 def enter():
-    global image0, swith
+    global image0, swith, bgm
     swith = Swith()
     image0 = load_image('event_s/wellcome.png')
+    bgm = load_music('bgm/tutorial/tutorial.mp3')
+    bgm.set_volume(128)
+    bgm.repeat_play()
 
 
 def exit():
