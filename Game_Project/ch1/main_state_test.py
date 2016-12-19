@@ -1,7 +1,7 @@
 
 import game_framework
 import time_obj
-import end_state
+import ending_state
 import prison
 import random
 from pico2d import *
@@ -10,7 +10,7 @@ from prison import Bulid, Boom, Blue, Green, Red
 from men import Men
 from time_obj import Bar
 from main_npc import Mnpc
-from mid_event_state import event_01, event_00
+from mid_event_state import event_00
 
 
 running = None
@@ -20,10 +20,12 @@ sum_point = 0.0
 game_ftpoint = 0.0
 event_on = False
 tutorial = True
+tutorial_ask = False
 game_set = False
 lowblackimage = None
 blackiamge = None
 blackcount = 0
+
 
 
 def high_crush(a, b):
@@ -60,6 +62,9 @@ def handle_events():
             elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_n):
                 bar.ch_points_times()
                 bar.ch_level()
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE) and tutorial_ask == True:
+                event00.space_push()
+
 
 
 def create_world():
@@ -125,7 +130,7 @@ def update():
         red.update(men)
         floor.normal_update()
     if bar.end_time() == True:
-        game_framework.change_state(end_state)
+        game_framework.change_state(ending_state)
     if game_set == False:
         game_ftpoint = 0.00001
     elif game_set == True:
@@ -134,7 +139,7 @@ def update():
 
 
 def draw():
-    global point_state, sum_point, tutorial, game_set
+    global point_state, sum_point, tutorial, tutorial_ask, game_set
     clear_canvas()
     floor.draw()
     if time_obj.chup == False:
@@ -178,6 +183,7 @@ def draw():
         blackimage.draw(600, 350)
         blackimage.draw(600, 350)
     elif time_obj.chup == True:
+        tutorial_ask = True
         if tutorial == True:
             event00.draw()
             if tutorial == False:

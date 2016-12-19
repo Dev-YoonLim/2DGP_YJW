@@ -3,26 +3,36 @@ import game_framework
 import last_true_one
 from time_obj import Bar
 import time_obj
+import random
 
+ending_count = 0.0
 ending_times = 0
+no_space = False
 bgm = None
 
 class Bad:
     def __init__(self):
         self.x = 600
         self.y = 350
-        self.image = load_image('event_e/one_more.png')
+        self.darkview = random.randint(0, 5)
+        self.image = load_image('event_e/bad_ending_1.png')
 
     def draw(self):
         self.image.draw(self.x, self.y)
 
     def update(self):
-        global ending_times
+        global ending_times, ending_count, no_space
         if ending_times == 1:
-            self.image = load_image('event_e/mu.png')
+            self.image = load_image('event_e/bad_ending_2.png')
         elif ending_times == 2:
-            self.image = load_image('event_e/bad_die.png')
-        elif ending_times == 3:
+            no_space = True
+            self.darkview = random.randint(0, 5)
+            if self.darkview != 0:
+                self.image = load_image('event_e/bad_ending_3.png')
+            else:
+                self.image = load_image('event_s/darkface.png')
+            ending_count += 0.01
+        if ending_count > 3:
             ending_times = 10
 
 
@@ -30,18 +40,30 @@ class Normal:
     def __init__(self):
         self.x = 600
         self.y = 350
-        self.image = load_image('event_e/one_more2.png')
+        self.image = load_image('event_e/bad.ending_1.png')
 
     def draw(self):
         self.image.draw(self.x, self.y)
 
     def update(self):
-        global ending_times
+        global ending_times, ending_count, no_space
         if ending_times == 1:
-            self.image = load_image('event_e/mu2.png')
+            self.image = load_image('event_e/normal_ending_1.png')
         elif ending_times == 2:
-            self.image = load_image('event_e/normal_die.png')
-        if ending_times == 3:
+            self.image = load_image('event_e/normal_ending_2.png')
+        elif ending_times == 3:
+            self.image = load_image('event_e/normal_ending_3.png')
+        elif ending_times == 4:
+            self.image = load_image('event_e/normal_ending_4.png')
+        elif ending_times == 5:
+            no_space = True
+            self.darkview = random.randint(0, 5)
+            if self.darkview != 0:
+                self.image = load_image('event_e/bad_ending_5.png')
+            else:
+                self.image = load_image('event_s/darkface.png')
+            ending_count += 0.01
+        if ending_count > 3:
             ending_times = 10
 
 
@@ -63,39 +85,6 @@ class Good:
         if ending_times == 3:
             ending_times = 10
 
-class Trues:
-    def __init__(self):
-        self.x = 600
-        self.y = 350
-        self.image = load_image('event_e/trues_more.png')
-
-    def draw(self):
-        self.image.draw(self.x, self.y)
-
-    def update(self):
-        global ending_times
-        if ending_times == 1:
-            self.image = load_image('event_e/trues_um.png')
-        elif ending_times == 2:
-            self.image = load_image('event_e/trues_wait.png')
-        elif ending_times == 3:
-            self.image = load_image('event_e/trues_yami.png')
-        elif ending_times == 4:
-            self.image = load_image('event_e/trues_stop!!.png')
-        elif ending_times == 5:
-            self.image = load_image('event_e/trues_yami2.png')
-        elif ending_times == 6:
-            self.image = load_image('event_e/trues_rollback.png')
-        elif ending_times == 7:
-            self.image = load_image('event_e/trues_uha.png')
-        elif ending_times == 8:
-            self.image = load_image('event_e/goodyami.png')
-        elif ending_times == 9:
-            self.image = load_image('event_e/goodyami.png')
-        elif ending_times == 10:
-            close_canvas()
-            game_framework.change_state(last_true_one)
-
 
 class Hidden:
     def __init__(self):
@@ -115,56 +104,17 @@ class Hidden:
         if ending_times == 3:
             ending_times = 10
 
-class Trues_win:
-    def __init__(self):
-        self.x = 600
-        self.y = 350
-        self.image = load_image('event_e/blue_more4.png')
-
-    def draw(self):
-        self.image.draw(self.x, self.y)
-
-    def update(self):
-        global ending_times
-        if ending_times == 1:
-            self.image = load_image('event_e/mu3.png')
-        elif ending_times == 2:
-            self.image = load_image('event_e/blue_die.png')
-        if ending_times == 3:
-            ending_times = 10
-
-
-class Trues_lose:
-    def __init__(self):
-        self.x = 600
-        self.y = 350
-        self.image = load_image('event_e/blue_more4.png')
-
-    def draw(self):
-        self.image.draw(self.x, self.y)
-
-    def update(self):
-        global ending_times
-        if ending_times == 1:
-            self.image = load_image('event_e/mu3.png')
-        elif ending_times == 2:
-            self.image = load_image('event_e/blue_die.png')
-        if ending_times == 3:
-            ending_times = 10
-
-
 
 
 def enter():
     global bad, normal, good, trues, hidden
-    global bar, bgm
-    delay(2)
-    open_canvas(1200, 700)
+    global bar, bgm, gameover
     bad = Bad()
     normal = Normal()
     good = Good()
     trues = Trues()
     hidden = Hidden()
+    gameover = load_image('END/end_one.png')
 
     bar = Bar()
     if time_obj.ch_ending != 4:
@@ -173,9 +123,9 @@ def enter():
         bgm.repeat_play()
 
 def exit():
-    global bgm, image
+    global bgm, gameover
     del(bgm)
-    del(image)
+    del(gameover)
 
 def handle_events():
     global ending_times
@@ -186,7 +136,7 @@ def handle_events():
         else:
             if(event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
-            elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE) and no_space == False:
                 ending_times += 1
 
 
@@ -203,12 +153,16 @@ def draw():
         trues.image.draw(600, 350)
     elif time_obj.ch_ending == 4:
         hidden.image.draw(600, 350)
+    if ending_times == 10:
+        gameover.draw(600, 350)
     update_canvas()
 
 
 def update():
-    global bad, ending_times
+    global bad, ending_times, ending_count
     if ending_times == 10:
+        ending_count += 0.01
+    if ending_count > 5:
         game_framework.quit()
         close_canvas()
     if time_obj.ch_ending == 0:
